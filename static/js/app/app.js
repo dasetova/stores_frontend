@@ -10,25 +10,11 @@ app.config(function($routeProvider) {
     .when("/", {
         templateUrl : "views/stores.html",
         controller : "StoreController",
-        controllerAs:'ctrl',
-        resolve: {
-            stores: function ($q, StoreService) {
-                console.log('Load all stores');
-                var deferred = $q.defer();
-                StoreService.loadAllStores().then(deferred.resolve, deferred.resolve);
-                return deferred.promise;
-            }
-        }
+        controllerAs:'ctrl'
+    })
+    .when("/:store_id/products", {
+        templateUrl : "views/products.html",
+        controller : "ProductController",
+        controllerAs:'ctrl'
     });
 });
-
-// ,
-//         controllerAs:'ctrl',
-//         resolve: {
-//             stores: function ($q, StoreService) {
-//                 console.log('Load all stores');
-//                 var deferred = $q.defer();
-//                 StoreService.loadAllStores().then(deferred.resolve, deferred.resolve);
-//                 return deferred.promise;
-//             }
-//         }

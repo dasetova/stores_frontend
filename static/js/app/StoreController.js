@@ -1,7 +1,7 @@
 'use strict';
  
 angular.module('storeAdmin').controller('StoreController',
-['StoreService', function(StoreService) {
+['StoreService', '$location', function(StoreService, $location) {
     var self = this;
 
     // Form attributes
@@ -28,7 +28,13 @@ angular.module('storeAdmin').controller('StoreController',
     self.manageProducts = manageProducts;
 
     function getAllStores(){
-        return StoreService.getAllStores();
+        StoreService.getAllStores().then(
+            function (response) {
+                self.stores = response.data;
+            },
+            function (errResponse) {
+                console.error(errResponse);
+        });
     }
 
     function submit(){
@@ -42,7 +48,7 @@ angular.module('storeAdmin').controller('StoreController',
     function createStore(){
         StoreService.createStore(self.name, self.address, self.phone, self.logo).then(
             function (response) {
-                self.stores = getAllStores();
+                getAllStores();
                 self.successMessage = "Store " + self.name + " successfully created";
                 console.log(response);
                 reset();
@@ -66,6 +72,7 @@ angular.module('storeAdmin').controller('StoreController',
             function (response) {
                 self.successMessage = "Store " + self.id + " successfully updated";
                 console.log(response);
+                getAllStores();
                 reset();
             },
             function (errResponse) {
@@ -88,6 +95,7 @@ angular.module('storeAdmin').controller('StoreController',
             function (response) {
                 self.successMessage = "Store " + id + " successfully deleted";
                 console.log(response);
+                getAllStores();
             },
             function (errResponse) {
                 self.errorMessage = "Store " + self.name + " can't be deleted";
@@ -96,11 +104,11 @@ angular.module('storeAdmin').controller('StoreController',
     }
 
     function manageSales(id){
-        console.log("Going to manageSales: " + id);
+        $location.path(`/${id}/sales`);
     }
 
     function manageProducts(id){
-        console.log("Going to manageProducts: " + id);
+        $location.path(`/${id}/products`);
     }
 }
 ]);

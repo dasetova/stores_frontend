@@ -1,44 +1,44 @@
 'use strict';
  
-angular.module('storeAdmin').factory('StoreService',
+angular.module('storeAdmin').factory('ProductService',
     ['$http', '$q', 'urls',
         function ($http, $q, urls) {
  
             var factory = {
-            	getAllStores: getAllStores,
-                createStore: createStore,
-                updateStore: updateStore,
-                deleteStore: deleteStore
+            	getAllProducts: getAllProducts,
+                createProduct: createProduct,
+                updateProduct: updateProduct,
+                deleteProduct: deleteProduct
             };
  
             return factory;
             
-            function getAllStores(){
+            function getAllProducts(store_id){
                 var deferred = $q.defer();
-                $http.get(urls.STORE_SERVICE_API)
+                $http.get(urls.STORE_SERVICE_API + '/' + store_id + '/products')
                     .then(
                         function (response) {
-                            console.log('Fetched successfully stores');
+                            console.log('Fetched successfully products');
                             deferred.resolve(response);
                         },
                         function (errResponse) {
-                            console.error('Error while loading stores');
+                            console.error('Error while loading products');
                             deferred.reject(errResponse);
                         }
                     );
                 return deferred.promise;
             }
 
-            function createStore(name, address, phone, logo){
+            function createProduct(store_id, name, description, available_quantity, unit_price){
                 var deferred = $q.defer();
                 $http.post(
-                    urls.STORE_SERVICE_API,
+                    urls.STORE_SERVICE_API + '/' + store_id + '/products',
                     {
-                        store: {
+                        product: {
                             name: name,
-                            address: address,
-                            phone: phone,
-                            logo: logo
+                            description: description,
+                            available_quantity: available_quantity,
+                            unit_price: unit_price
                         }
                     }
                 ).then(
@@ -53,16 +53,16 @@ angular.module('storeAdmin').factory('StoreService',
                 
             }
 
-            function updateStore(id, name, address, phone, logo){
+            function updateProduct(store_id, product_id, name, description, available_quantity, unit_price){
                 var deferred = $q.defer();
                 $http.put(
-                    urls.STORE_SERVICE_API + '/' + id,
+                    urls.STORE_SERVICE_API + '/' + store_id + '/products/' + product_id,
                     {
-                        store: {
+                        product: {
                             name: name,
-                            address: address,
-                            phone: phone,
-                            logo: logo
+                            description: description,
+                            available_quantity: available_quantity,
+                            unit_price: unit_price
                         }
                     }
                 ).then(
@@ -77,10 +77,10 @@ angular.module('storeAdmin').factory('StoreService',
                 
             }
 
-            function deleteStore(id){
+            function deleteProduct(store_id, product_id){
                 var deferred = $q.defer();
                 $http.delete(
-                    urls.STORE_SERVICE_API + '/' + id
+                    urls.STORE_SERVICE_API + '/' + store_id + '/products/' + product_id,
                 ).then(
                     function (response) {
                         deferred.resolve(response);
