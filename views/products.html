@@ -1,8 +1,9 @@
 <div class="container py-4">
     <div class="card bg-light">
-        <div class="card-header">{{ctrl.title}}</div>
+        <div class="card-header"><strong>{{ctrl.title}}</strong> <a class="btn btn-info" href="#!/" style="float: right;">Back to Stores</a></div>
         <div class="card-body">
             <h4 class="card-title">
+                    
                     <div class="alert alert-success alert-dismissible" ng-if="ctrl.successMessage">
                         <button type="button" class="close" data-dismiss="alert" ng-click="ctrl.successMessage=''">&times;</button>
                         {{ctrl.successMessage}}
