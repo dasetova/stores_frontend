@@ -16,5 +16,10 @@ app.config(function($routeProvider) {
         templateUrl : "views/products.html",
         controller : "ProductController",
         controllerAs:'ctrl'
+    })
+    .when("/:store_id/sales", {
+        templateUrl : "views/sales.html",
+        controller : "SaleController",
+        controllerAs:'ctrl'
     });
 });
